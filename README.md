@@ -3,7 +3,7 @@ It's an application leaves your microphone mute except while holding down a keyb
 When the Application starts, it will add a microphone status icon to the menu bar.
 
 ## Download and install
-The application can be downloaded in the [releases section](releases).  Drag the application into the /Applications folder.
+The application can be downloaded in the [releases section](../../releases).  Drag the application into the /Applications folder.
 Right click and select open to start.
 
 ## Use (any of the following)
