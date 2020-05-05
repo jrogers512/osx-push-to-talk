@@ -1,6 +1,7 @@
 DerivedData/
 assets/
 .DS_Store
+.env
 **/xcuserdata
 
 # Created by https://www.gitignore.io/api/xcode
