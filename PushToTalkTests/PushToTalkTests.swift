@@ -2,8 +2,6 @@
 //  PushToTalkTests.swift
 //  PushToTalkTests
 //
-//  Created by Ahmy Yulrizka on 17/03/15.
-//  Copyright (c) 2015 yulrizka. All rights reserved.
 //
 
 import Cocoa

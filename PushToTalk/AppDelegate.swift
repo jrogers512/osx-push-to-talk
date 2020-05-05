@@ -2,8 +2,7 @@
 //  AppDelegate.swift
 //  PushToTalk
 //
-//  Created by Ahmy Yulrizka on 17/03/15.
-//  Copyright (c) 2015 yulrizka. All rights reserved.
+//  Derived from works by Ahmy Yulrizka created on 17/03/15.
 //
 
 import Cocoa
@@ -17,8 +16,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var statusMenu: NSMenu!
     @IBOutlet weak var menuItemToggle: NSMenuItem!
     
-    let keyDownMask = 0x80140
-    let keyUpMask = 0x100
+    //let keyDownMask = 0x80140
+    //let keyUpMask = 0x100
     var talking = false
     var enable = true
     
@@ -26,7 +25,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var muteIcon:NSImage?
     
     
-    let statusItem = NSStatusBar.system().statusItem(withLength: -1)
+    let statusItem = NSStatusBar.system.statusItem(withLength: -1)
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         
@@ -38,12 +37,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.image = muteIcon
         statusItem.menu = statusMenu
         
-
+        // NSEventMask.OtherMouseDownMask
         // handle when application is on background
-        NSEvent.addGlobalMonitorForEvents(matching: NSEventMask.flagsChanged, handler: handleFlagChangedEvent)
+        NSEvent.addGlobalMonitorForEvents(matching: [ .flagsChanged, .otherMouseDown, .otherMouseUp, .rightMouseDown, .rightMouseUp] , handler: handleFlagChangedEvent)
         
         // handle when application is on foreground
-        NSEvent.addLocalMonitorForEvents(matching: NSEventMask.flagsChanged, handler: { (theEvent) -> NSEvent! in
+        NSEvent.addLocalMonitorForEvents(matching: [ .flagsChanged, .otherMouseDown, .otherMouseUp, .rightMouseDown, .rightMouseUp] , handler: { (theEvent) -> NSEvent? in
             self.handleFlagChangedEvent(theEvent)
             return theEvent
         })
@@ -54,12 +53,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if !self.enable {
             return
         }
-        
-        if theEvent.modifierFlags.contains(.option) {
+
+        // Need to parameterize the option key here into a config!
+        if theEvent.modifierFlags.contains(.option) || theEvent.type == .otherMouseDown || theEvent.type == .rightMouseDown {
            self.toggleMic(true)
         } else {
            self.toggleMic(false)
-        }    
+        }
     }
     
     /**
@@ -91,7 +91,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             mScope: AudioObjectPropertyScope(kAudioObjectPropertyScopeGlobal),
             mElement: AudioObjectPropertyElement(kAudioObjectPropertyElementMaster))
         
-        let status1 = AudioObjectGetPropertyData(
+        // let status1 =
+        AudioObjectGetPropertyData(
             AudioObjectID(kAudioObjectSystemObject),
             &getDefaultInputDevicePropertyAddress,
             0,
@@ -142,15 +143,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let size = UInt32(MemoryLayout<UInt32>.size)
         var mute:UInt32 = mute ? 1 : 0;
         
-        let err = AudioObjectSetPropertyData(defaultInputDeviceId, &address, 0, nil, size, &mute)
+        //let err =
+        AudioObjectSetPropertyData(defaultInputDeviceId, &address, 0, nil, size, &mute)
     }
     
     func updateToggleTitle() {
         if (enable) {
-            menuItemToggle.title = "Disable"
+            menuItemToggle.title = "Disable PTT"
             statusItem.image = muteIcon
         } else {
-            menuItemToggle.title = "Enable"
+            menuItemToggle.title = "Enable PTT"
             statusItem.image = talkIcon
         }
     }
