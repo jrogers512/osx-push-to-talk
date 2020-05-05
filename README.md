@@ -1,4 +1,3 @@
-https://github.com/jrogers512/osx-push-to-talk/releases
 # OSX PushToTalk
 It's an application leaves your microphone mute except while holding down a keyboard button or mouse button.
 When the Application starts, it will add a microphone status icon to the menu bar.
